@@ -5,7 +5,7 @@
  *   CP2102 TX pin hooked to MCU pin 22
  *   CP2102 RX pin hooked to MCU pin 21
 * modified by Bruce R land
-* May 2014
+* May 
 *********************************************************************/
 
 #define _SUPPRESS_PLIB_WARNING 1
