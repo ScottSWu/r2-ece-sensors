@@ -9,16 +9,12 @@ void init_ultrasonic(){
     // will send their output to UART2
      __XC_UART = 2;
      mPORTASetPinsDigitalIn(BIT_1);
-     mPORTBSetPinsDigitalOut(BIT_7);
+     mPORTASetPinsDigitalOut(BIT_3);
+     mPORTASetBits(BIT_3);
      
     // specify PPS group, signal, logical pin name
     PPSInput (2, U2RX, RPA1); //Assign U2RX to pin RPA1 -- Physical pin 3 on 28 PDIP
     PPSOutput(4, RPB10, U2TX); //Assign U2TX to pin RPB10 -- Physical pin 21 on 28 PDIP
-    
-    //PPSInput (3, U1RX, RPA2); //Assign U1RX to pin RPA2 -- Physical pin 9 on 28 PDIP
-    //PPSOutput(1, RPB4, U1TX); //Assign U1TX to pin RPB4 -- Physical pin 11 on 28 PDIP
-    mPORTBSetPinsDigitalOut(BIT_4);
-    mPORTBSetBits(BIT_4);
    
     // init the uart2
     UARTConfigure(UART2, UART_ENABLE_PINS_TX_RX_ONLY);
@@ -40,6 +36,6 @@ void set_low(){
     {
         i++;
     }
-    mPORTBSetPinsDigitalIn(BIT_4); 
+    mPORTASetPinsDigitalIn(BIT_3); 
     
 }

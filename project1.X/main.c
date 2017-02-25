@@ -14,7 +14,7 @@
 //***************************************************
 static char RCR = 'a'; //received character
 unsigned char data[6] = {0};
-int count = 0;
+//int count = 0;
 
 /********************************* 
     main entry point
@@ -33,10 +33,7 @@ int main(void) {
     printf("Sensor #:\n\r    1    2");
 
     while(1){
-        printf("%f in \n\r", getADC());
-        count++;
-        if(count%2==0)
-            printf("\n\r");
+        
     }
     
    /* while (1) {
