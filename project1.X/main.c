@@ -12,10 +12,9 @@
 
 
 //***************************************************
-static char RCR = 'a'; //received character
+/*static char RCR = 'a'; //received character
 unsigned char data[6] = {0};
-//int count = 0;
-
+*/
 /********************************* 
     main entry point
  *********************************/
@@ -29,14 +28,15 @@ int main(void) {
     clrscr(); //clear PuTTY screen
     home();
 
-    //unsigned int k, l = 0, count = 0, start = 0;
-    printf("Sensor #:\n\r    1    2");
-
     while(1){
-        
+    }
+}
+    void __ISR(_TIMER_2_VECTOR, ipl2) Timer2Handler(void){
+        handleISR();
     }
     
-   /* while (1) {
+   /* UART reading
+    * while (1) {
         for (l = 0; l < 6; l++) {
             RCR = getRCR();
             if (RCR == 'R') data[k = 0] = RCR; // check if start byte 'R' is met  
@@ -56,9 +56,6 @@ int main(void) {
     }*/
     
 
-}
 
-void __ISR(_TIMER_2_VECTOR, ipl2) Timer2Handler(void){
-    handleISR();
-}
+
 

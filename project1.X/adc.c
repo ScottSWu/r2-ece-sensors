@@ -4,9 +4,7 @@
 #include <math.h>
 
 volatile float ADC_VALUE, a = 0;
-volatile unsigned int c = 1, count = 0;
-
-
+volatile unsigned int c = 0, count = 0;
 
 void adc_initialize(void) {
     // Configure the device for maximum performance but do not change the PBDIV
@@ -18,12 +16,12 @@ void adc_initialize(void) {
     CloseADC10(); // ensure the ADC is off before setting the configuration
 
     mPORTASetPinsAnalogIn(BIT_0 | BIT_4);
-
+    mPORTBSetPinsAnalogIn(BIT_13);
+    //AN0 is first sensor, AN4 is 2nd, AN11 is 3rd
 
 
     // use ground as neg ref for A | use AN4 for input A     
     // configure to sample AN4 
-    //SetChanADC10( ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4 ); // configure to sample AN4 
     SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4); // configure to sample AN4 
     OpenADC10(PARAM1, PARAM2, PARAM3, PARAM4, PARAM5); // configure ADC using the parameters defined above
 
@@ -37,10 +35,8 @@ void adc_initialize(void) {
 }
 
 inline void handleISR() {
-
-
-   c = 1 - c;
-    if (c == 0) {
+    c++;
+    if (c % 3 == 0) {
 
         SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4);
         OpenADC10(PARAM1, PARAM2, PARAM3, ENABLE_AN4_ANA, PARAM5);
@@ -52,11 +48,11 @@ inline void handleISR() {
         // read the first buffer position
         ADC_VALUE = (float) ReadADC10(0); // read the result of channel 4 conversion from the idle buffer
         AcquireADC10();
-        printf("%.1f in     ", getADC());       
+        printf("%.1f in     ", getADC());
         count++;
-        if (count % 2 == 0)
+        if (count % 3 == 1)
             printf("\n\r");
-    } else {
+    } else if (c % 3 == 1) {
         SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN0);
         OpenADC10(PARAM1, PARAM2, PARAM3, ENABLE_AN0_ANA, PARAM5);
         EnableADC10();
@@ -69,12 +65,27 @@ inline void handleISR() {
         AcquireADC10();
         printf("%.1f in     ", getADC());
         count++;
-        if (count % 2 == 0)
+        if (count % 3 == 1)
+            printf("\n\r");
+    } else {
+        SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN11);
+        OpenADC10(PARAM1, PARAM2, PARAM3, ENABLE_AN11_ANA, PARAM5);
+        EnableADC10();
+
+        // clear the interrupt flag
+        mT2ClearIntFlag();
+        // read the ADC
+        // read the first buffer position
+        ADC_VALUE = (float) ReadADC10(0); // read the result of channel 4 conversion from the idle buffer
+        AcquireADC10();
+        printf("%.1f in     ", getADC());
+        count++;
+        if (count % 3 == 1)
             printf("\n\r");
     }
 }
 
 float getADC() {
-    a = ADC_VALUE / 2; //use datasheet for conversion-
+    a = ADC_VALUE / 2.01; //1024/2/254- tested with 12 in distance
     return a;
 }
