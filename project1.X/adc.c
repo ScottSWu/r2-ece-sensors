@@ -1,91 +1,41 @@
-#define _SUPPRESS_PLIB_WARNING 1
 #include "adc.h"
 #include "global.h"
-#include <math.h>
+#include <plib.h>
+#define _SUPPRESS_PLIB_WARNING 1
 
-volatile float ADC_VALUE, a = 0;
-volatile unsigned int c = 0, count = 0;
 
-void adc_initialize(void) {
-    // Configure the device for maximum performance but do not change the PBDIV
-    // Given the options, this function will change the flash wait states, RAM
-    // wait state and enable prefetch cache but will not change the PBDIV.
-    // The PBDIV value is already set via the pragma FPBDIV option above..
-
-    // configure and enable the ADC
-    CloseADC10(); // ensure the ADC is off before setting the configuration
-
+void configADC() {
+   
+	// configure and enable the ADC
+	CloseADC10();	// ensure the ADC is off before setting the configuration
     mPORTASetPinsAnalogIn(BIT_0 | BIT_4);
     mPORTBSetPinsAnalogIn(BIT_13);
-    //AN0 is first sensor, AN4 is 2nd, AN11 is 3rd
+	// define setup parameters for OpenADC10
+				// Turn module on | output in integer | trigger mode auto | enable  autosample
+	#define PARAM1  ADC_MODULE_ON | ADC_FORMAT_INTG | ADC_CLK_AUTO | ADC_AUTO_SAMPLING_ON
 
+	// define setup parameters for OpenADC10
+			    // ADC ref external    | disable offset test    | enable scan mode | perform 2 samples | use one buffer | use MUXA mode
+       // note: to read X number of pins you must set ADC_SAMPLES_PER_INT_X
+	#define PARAM2  ADC_VREF_AVDD_AVSS | ADC_OFFSET_CAL_DISABLE | ADC_SCAN_ON | ADC_SAMPLES_PER_INT_3 | ADC_ALT_BUF_OFF | ADC_ALT_INPUT_OFF
 
-    // use ground as neg ref for A | use AN4 for input A     
-    // configure to sample AN4 
-    SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4); // configure to sample AN4 
-    OpenADC10(PARAM1, PARAM2, PARAM3, PARAM4, PARAM5); // configure ADC using the parameters defined above
+	// define setup parameters for OpenADC10
+	// 				  use ADC internal clock | set sample time
+    #define PARAM3 ADC_CONV_CLK_PB | ADC_SAMPLE_TIME_5 | ADC_CONV_CLK_Tcy2 //ADC_SAMPLE_TIME_15| ADC_CONV_CLK_Tcy2
 
-    EnableADC10(); // Enable the ADC
-    OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_1, 40000);
-    ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
-    mT2ClearIntFlag(); // and clear the interrupt flag
-    INTEnableSystemMultiVectoredInt();
+	// define setup parameters for OpenADC10
+				// set AN4 and AN5
+	#define PARAM4	ENABLE_AN0_ANA | ENABLE_AN4_ANA | ENABLE_AN11_ANA
 
+	// define setup parameters for OpenADC10
+	// do not assign channels to scan
+	#define PARAM5	SKIP_SCAN_AN1 | SKIP_SCAN_AN2 | SKIP_SCAN_AN3 | SKIP_SCAN_AN5| SKIP_SCAN_AN6 | SKIP_SCAN_AN7 | SKIP_SCAN_AN8 | SKIP_SCAN_AN9 | SKIP_SCAN_AN10 | SKIP_SCAN_AN12 | SKIP_SCAN_AN13 | SKIP_SCAN_AN14 | SKIP_SCAN_AN15
 
-}
+	// use ground as neg ref for A 
+	SetChanADC10( ADC_CH0_NEG_SAMPLEA_NVREF); // use ground as the negative reference
+	OpenADC10( PARAM1, PARAM2, PARAM3, PARAM4, PARAM5 ); // configure ADC using parameter define above
 
-inline void handleISR() {
-    c++;
-    if (c % 3 == 0) {
+	EnableADC10(); // Enable the ADC
 
-        SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4);
-        OpenADC10(PARAM1, PARAM2, PARAM3, ENABLE_AN4_ANA, PARAM5);
-        EnableADC10();
-
-        // clear the interrupt flag
-        mT2ClearIntFlag();
-        // read the ADC
-        // read the first buffer position
-        ADC_VALUE = (float) ReadADC10(0); // read the result of channel 4 conversion from the idle buffer
-        AcquireADC10();
-        printf("%.1f in     ", getADC());
-        count++;
-        if (count % 3 == 1)
-            printf("\n\r");
-    } else if (c % 3 == 1) {
-        SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN0);
-        OpenADC10(PARAM1, PARAM2, PARAM3, ENABLE_AN0_ANA, PARAM5);
-        EnableADC10();
-
-        // clear the interrupt flag
-        mT2ClearIntFlag();
-        // read the ADC
-        // read the first buffer position
-        ADC_VALUE = (float) ReadADC10(0); // read the result of channel 4 conversion from the idle buffer
-        AcquireADC10();
-        printf("%.1f in     ", getADC());
-        count++;
-        if (count % 3 == 1)
-            printf("\n\r");
-    } else {
-        SetChanADC10(ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN11);
-        OpenADC10(PARAM1, PARAM2, PARAM3, ENABLE_AN11_ANA, PARAM5);
-        EnableADC10();
-
-        // clear the interrupt flag
-        mT2ClearIntFlag();
-        // read the ADC
-        // read the first buffer position
-        ADC_VALUE = (float) ReadADC10(0); // read the result of channel 4 conversion from the idle buffer
-        AcquireADC10();
-        printf("%.1f in     ", getADC());
-        count++;
-        if (count % 3 == 1)
-            printf("\n\r");
-    }
-}
-
-float getADC() {
-    a = ADC_VALUE / 2.01; //1024/2/254- tested with 12 in distance
-    return a;
+	while ( ! mAD1GetIntFlag() ) { } // wait for the first conversion to complete so there will be valid data in ADC result registers
 }

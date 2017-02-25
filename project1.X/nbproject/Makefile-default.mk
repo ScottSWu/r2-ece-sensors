@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c ultrasonic.c adc.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c adc.c ultrasonic.c uart_putty.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/ultrasonic.o ${OBJECTDIR}/adc.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/ultrasonic.o.d ${OBJECTDIR}/adc.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/ultrasonic.o ${OBJECTDIR}/uart_putty.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/adc.o.d ${OBJECTDIR}/ultrasonic.o.d ${OBJECTDIR}/uart_putty.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/ultrasonic.o ${OBJECTDIR}/adc.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/adc.o ${OBJECTDIR}/ultrasonic.o ${OBJECTDIR}/uart_putty.o
 
 # Source Files
-SOURCEFILES=main.c ultrasonic.c adc.c
+SOURCEFILES=main.c adc.c ultrasonic.c uart_putty.c
 
 
 CFLAGS=
@@ -106,17 +106,23 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/adc.o: adc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/adc.o.d 
+	@${RM} ${OBJECTDIR}/adc.o 
+	@${FIXDEPS} "${OBJECTDIR}/adc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/adc.o.d" -o ${OBJECTDIR}/adc.o adc.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
 ${OBJECTDIR}/ultrasonic.o: ultrasonic.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/ultrasonic.o.d 
 	@${RM} ${OBJECTDIR}/ultrasonic.o 
 	@${FIXDEPS} "${OBJECTDIR}/ultrasonic.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ultrasonic.o.d" -o ${OBJECTDIR}/ultrasonic.o ultrasonic.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/adc.o: adc.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/uart_putty.o: uart_putty.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/adc.o.d 
-	@${RM} ${OBJECTDIR}/adc.o 
-	@${FIXDEPS} "${OBJECTDIR}/adc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/adc.o.d" -o ${OBJECTDIR}/adc.o adc.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	@${RM} ${OBJECTDIR}/uart_putty.o.d 
+	@${RM} ${OBJECTDIR}/uart_putty.o 
+	@${FIXDEPS} "${OBJECTDIR}/uart_putty.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/uart_putty.o.d" -o ${OBJECTDIR}/uart_putty.o uart_putty.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
@@ -125,17 +131,23 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/adc.o: adc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/adc.o.d 
+	@${RM} ${OBJECTDIR}/adc.o 
+	@${FIXDEPS} "${OBJECTDIR}/adc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/adc.o.d" -o ${OBJECTDIR}/adc.o adc.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	
 ${OBJECTDIR}/ultrasonic.o: ultrasonic.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/ultrasonic.o.d 
 	@${RM} ${OBJECTDIR}/ultrasonic.o 
 	@${FIXDEPS} "${OBJECTDIR}/ultrasonic.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ultrasonic.o.d" -o ${OBJECTDIR}/ultrasonic.o ultrasonic.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/adc.o: adc.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/uart_putty.o: uart_putty.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/adc.o.d 
-	@${RM} ${OBJECTDIR}/adc.o 
-	@${FIXDEPS} "${OBJECTDIR}/adc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/adc.o.d" -o ${OBJECTDIR}/adc.o adc.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
+	@${RM} ${OBJECTDIR}/uart_putty.o.d 
+	@${RM} ${OBJECTDIR}/uart_putty.o 
+	@${FIXDEPS} "${OBJECTDIR}/uart_putty.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/uart_putty.o.d" -o ${OBJECTDIR}/uart_putty.o uart_putty.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD) 
 	
 endif
 

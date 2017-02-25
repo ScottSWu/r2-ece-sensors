@@ -1,6 +1,7 @@
 build/default/production/main.o:  \
 main.c  \
-ultrasonic.h  \
+uart_putty.h  \
 config.h  \
 global.h  \
- adc.h 
+ adc.h  \
+ultrasonic.h 
