@@ -17,6 +17,7 @@ void adc_initialize(void)
     // configure and enable the ADC
 	CloseADC10();	// ensure the ADC is off before setting the configuration
 
+    mPORTASetPinsAnalogIn(BIT_0 | BIT_4);
 	// define setup parameters for OpenADC10
 	// Turn module on | ouput in integer | trigger mode auto | enable autosample
         // ADC_CLK_AUTO -- Internal counter ends sampling and starts conversion (Auto convert)
@@ -36,7 +37,7 @@ void adc_initialize(void)
 
 	// define setup parameters for OpenADC10
 	// set AN4 and  as analog inputs
-	#define PARAM4	ENABLE_AN0_ANA 
+	#define PARAM4	ENABLE_AN4_ANA 
 
 	// define setup parameters for OpenADC10
 	// do not assign channels to scan
@@ -45,7 +46,7 @@ void adc_initialize(void)
 	// use ground as neg ref for A | use AN4 for input A     
 	// configure to sample AN4 
 	//SetChanADC10( ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4 ); // configure to sample AN4 
-    SetChanADC10( ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN0 ); // configure to sample AN4 
+    SetChanADC10( ADC_CH0_NEG_SAMPLEA_NVREF | ADC_CH0_POS_SAMPLEA_AN4 ); // configure to sample AN4 
 	OpenADC10( PARAM1, PARAM2, PARAM3, PARAM4, PARAM5 ); // configure ADC using the parameters defined above
 
 	EnableADC10(); // Enable the ADC
