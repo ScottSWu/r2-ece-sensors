@@ -31,11 +31,11 @@ void init_ultrasonic(){
 }
 */
 void set_low(){
-    int i = 0;
-    while (i < (25*6000)) //wait at least 20 us
-    {
-        i++;
-    }
+    #define dTime_us 40000000/2000000
+    unsigned int j;
+    j = dTime_us * 22;
+    WriteCoreTimer(0);
+    while (ReadCoreTimer() < j);
     mPORTASetPinsDigitalIn(BIT_3); 
     
 }
