@@ -7,12 +7,14 @@
 #include "ultrasonic.h"
 #include "config.h"
 #include "global.h"
+#include "adc.h"
 #include <stdio.h> // need for printf() and sscanf()
 
 
 //***************************************************
 static char RCR = 'a'; //received character
 unsigned char data[6] = {0};
+int count = 0;
 
 /********************************* 
     main entry point
@@ -21,22 +23,45 @@ int main(void) {
     SYSTEMConfigPerformance(SYS_FREQ);
 
     init_ultrasonic();
-    // PuTTY
+    adc_initialize();
+    set_low();
+    
     clrscr(); //clear PuTTY screen
     home();
 
-    unsigned int k, l = 0;
+    //unsigned int k, l = 0, count = 0, start = 0;
+    printf("Sensor #:\n\r    1    2");
 
-    while (1) {
+    while(1){
+        printf("%f in \n\r", getADC());
+        count++;
+        if(count%2==0)
+            printf("\n\r");
+    }
+    
+   /* while (1) {
         for (l = 0; l < 6; l++) {
             RCR = getRCR();
             if (RCR == 'R') data[k = 0] = RCR; // check if start byte 'R' is met  
             if (data[0] == 'R') data[k++] = RCR; // save the data in data array
             if (k > 4) k = 4; // if the data array reached max, set the index to 4
         }
-        printf("Distance: %c%c%c in\n\r", data[1], data[2], data[3]);
+        printf("    %c%c%c", data[1], data[2], data[3]);
+        start++;
+        if (start == 1) {
+            set_low();
+        }
+        count++;
+        if (count % 2 == 1) {
+            printf("\n\r");
+        }
 
-    }
+    }*/
+    
 
+}
+
+void __ISR(_TIMER_2_VECTOR, ipl2) Timer2Handler(void){
+    handleISR();
 }
 

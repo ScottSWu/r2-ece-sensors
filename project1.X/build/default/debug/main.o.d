@@ -1,6 +1,6 @@
-build/default/production/main.o:  \
+build/default/debug/main.o:  \
 main.c  \
 ultrasonic.h  \
 config.h  \
 global.h  \
- adc.h 
+adc.h 

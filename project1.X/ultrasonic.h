@@ -10,8 +10,9 @@
 #define _SUPPRESS_PLIB_WARNING 1
 #include <plib.h>
 
-char getRCR();
 void init_ultrasonic();
+//char getRCR();
+void set_low();
 
 #endif	/* ULTRASONIC_H */
 
