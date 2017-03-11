@@ -3,7 +3,7 @@
 #include "global.h"
 #include <plib.h>
 
-void init_uart(){
+/*void init_uart(){
 
     // By default, MPLAB XC32's libraries use UART2 for STDOUT.
     // This means that formatted output functions such as printf()
@@ -23,4 +23,4 @@ void init_uart(){
     UARTSetDataRate(UART2, PB_FREQ, BAUDRATE);
     UARTEnable(UART2, UART_ENABLE_FLAGS(UART_PERIPHERAL | UART_RX | UART_TX));
     
-}
+}*/

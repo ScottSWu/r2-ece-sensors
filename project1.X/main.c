@@ -21,7 +21,7 @@ int main(void) {
     //Configure the proper PB frequency and the number of wait states
 	SYSTEMConfigPerformance(SYS_FREQ);
 
-    init_uart();
+ //   init_uart();
     configADC();
     init_sensors();
     
@@ -29,9 +29,9 @@ int main(void) {
     home();
 
     while(1){
-        printf("%.1f       ", (float) ReadADC10(0)/2.01);
-        printf("%.1f       ", (float) ReadADC10(1)/2.01);
-        printf("%.1f       ", (float) ReadADC10(2)/2.01);
+        printf("%.1f       ", (float) ReadADC10(0)/3.11); //conversion done using datasheet- (512*3.105)/(3.3*254)
+        printf("%.1f       ", (float) ReadADC10(1)/3.11); //3.105 is measured Vcc, 3.3 is power supply, 254 is max distance
+        printf("%.1f       ", (float) ReadADC10(2)/3.11); //512 given in datasheet (1024/2)
         printf("\n\r");
     }
 }

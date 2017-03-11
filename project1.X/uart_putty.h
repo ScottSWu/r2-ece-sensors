@@ -9,7 +9,7 @@
 #define	UART_PUTTY_H
 #define _SUPPRESS_PLIB_WARNING 1
 
-void init_uart();
+//void init_uart();
 
 #endif	/* ULTRASONIC_H */
 
