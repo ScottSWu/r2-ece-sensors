@@ -8,6 +8,6 @@ void init_sensors(){
     j = dTime_us * 22;
     WriteCoreTimer(0);
     while (ReadCoreTimer() < j);
-    mPORTASetPinsDigitalIn(BIT_3); 
+    mPORTBSetPinsDigitalIn(BIT_9); 
     
 }
