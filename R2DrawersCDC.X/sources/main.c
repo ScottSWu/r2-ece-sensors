@@ -58,6 +58,7 @@
 #include "../includes/usb/usb.h"
 #include "../includes/usb/usb_function_cdc.h"
 #include "../includes/HardwareProfile.h"
+#include "../includes/R2Protocol.h"
 
 #pragma config FNOSC = PRIPLL, POSCMOD = HS, FSOSCEN = OFF, OSCIOFNC = OFF
 #pragma config FPLLIDIV = DIV_2, FPLLMUL = MUL_20, FPBDIV = DIV_1, FPLLODIV = DIV_2
@@ -132,14 +133,28 @@ int main(void)
 
         OpenTimer1(T1_ON | T1_PS_1_256, 0xFFFF);
         
+        uint8_t data[1] = { 1 };
+        struct R2ProtocolPacket params = {
+            "USENSOR", "PI", "", 1, data, ""
+        };
+        uint8_t output[256];
+        int len = R2ProtocolEncode(&params, output, 256);
+        
+        if (len >= 0) {
+            putUSBUSART(output, len);
+            CDCTxService();
+        }
+        
+        /*
         char sourceBuffer[30] = {0};
         char payloadBuffer[30] = {0};
         char checksumBuffer[30] = {0};
         char transactionBuffer[30] = {0};
+         */
         
 		// Application-specific tasks.
 		// Application related code may be added here, or in the ProcessIO() function.
-        int result = ProcessIO(sourceBuffer, payloadBuffer, checksumBuffer, transactionBuffer);
+        //int result = ProcessIO(sourceBuffer, payloadBuffer, checksumBuffer, transactionBuffer);
         /* the buffers now contain relevant information;
          * they are updated if result == 1; otherwise, it's old info
          */
@@ -147,13 +162,11 @@ int main(void)
        //if(result){
          //   if(payloadBuffer[0] == 'U'){
                 //conversion done using datasheet- (512*5)/(3.3*254)
-                int s = payloadBuffer[1]; //check 27th char (the sensor # s)
-                sprintf(buffer, "G00S\x07USENSORD\x02PIT\x01AP\x01\x00\x00\x001K\x02G01\r\n");
+                //int s = payloadBuffer[1]; //check 27th char (the sensor # s)
+                //sprintf(buffer, "G00S\x07USENSORD\x02PIT\x01AP\x01\x00\x00\x001K\x02G01\r\n");
                 //printf("G00S\x07USENSORD\x02PIT\x01AP\x01\x00\x00\x001K\x02G01\n");
                 //printf(buffer);
                 //putsUSBUSART(example);
-                putsUSBUSART(buffer, 32);
-                CDCTxService();
                 ////ReadADC10(1)/3.03
                 //sprintf(buffer, "G00S\x07USENSORD\x02PIT\x01AP\x011K\x01AG01");
            //}

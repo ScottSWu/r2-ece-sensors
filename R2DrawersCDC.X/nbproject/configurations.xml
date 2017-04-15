@@ -21,6 +21,7 @@
       <itemPath>global.h</itemPath>
       <itemPath>uart_putty.h</itemPath>
       <itemPath>ultrasonic.h</itemPath>
+      <itemPath>includes/R2Protocol.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
