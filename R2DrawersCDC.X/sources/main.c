@@ -93,7 +93,7 @@ static void InitializeSystem(void);
  *
  * Note:            None
  *****************************************************************************/
-char buffer[64];
+char source[64];
 char example[64] = {'\n'};
 
 int main(void)
@@ -104,6 +104,7 @@ int main(void)
     //init_uart();
     configADC();
     init_sensors();
+    
     
     clrscr(); //clear PuTTY screen
     home();
@@ -132,46 +133,60 @@ int main(void)
     				  
 
         OpenTimer1(T1_ON | T1_PS_1_256, 0xFFFF);
-        
-        uint8_t data[1] = { 1 };
-        struct R2ProtocolPacket params = {
-            "USENSOR", "PI", "", 1, data, ""
-        };
-        uint8_t output[256];
-        int len = R2ProtocolEncode(&params, output, 256);
-        
-        if (len >= 0) {
-            putUSBUSART(output, len);
-            CDCTxService();
+       
+        uint8_t data[3];
+        char source[256]="ULSENSOR";
+        char sensorNumbers[7] = {'1','2','3','4','5','6','7'};
+
+        int i;
+        for (i = 0; i < 7; i++) {
+            source[1] = sensorNumbers[i];
+            sprintf(data, "%.1f", (ReadADC10(i) / 3.3));
+            int newlength = strlen(data);
+            struct R2ProtocolPacket params = {"", "PI", "", newlength, data, ""};
+            char* srcptr = &params.source;
+            sprintf(srcptr, "%s", source);
+            uint8_t output[256];
+
+            int len = R2ProtocolEncode(&params, output, 256);
+
+            if (len >= 0) {
+                putUSBUSART(output, len);
+                CDCTxService();
+            }
         }
         
-        /*
-        char sourceBuffer[30] = {0};
+        
+        /*char sourceBuffer[30] = {0};
         char payloadBuffer[30] = {0};
         char checksumBuffer[30] = {0};
         char transactionBuffer[30] = {0};
-         */
         
 		// Application-specific tasks.
 		// Application related code may be added here, or in the ProcessIO() function.
-        //int result = ProcessIO(sourceBuffer, payloadBuffer, checksumBuffer, transactionBuffer);
+        int result = ProcessIO(sourceBuffer, payloadBuffer, checksumBuffer, transactionBuffer);
         /* the buffers now contain relevant information;
          * they are updated if result == 1; otherwise, it's old info
          */
          //Configure the proper PB frequency and the number of wait states
-       //if(result){
-         //   if(payloadBuffer[0] == 'U'){
+   /*
+            if(payloadBuffer[0] == 'U'){
                 //conversion done using datasheet- (512*5)/(3.3*254)
-                //int s = payloadBuffer[1]; //check 27th char (the sensor # s)
-                //sprintf(buffer, "G00S\x07USENSORD\x02PIT\x01AP\x01\x00\x00\x001K\x02G01\r\n");
-                //printf("G00S\x07USENSORD\x02PIT\x01AP\x01\x00\x00\x001K\x02G01\n");
-                //printf(buffer);
-                //putsUSBUSART(example);
-                ////ReadADC10(1)/3.03
-                //sprintf(buffer, "G00S\x07USENSORD\x02PIT\x01AP\x011K\x01AG01");
-           //}
-       //}
-        
+                int s = payloadBuffer[1] - '0'; //check (the sensor # s)
+                sprintf(data, ".1f", (ReadADC10(s) / 3.03));
+                int length = (int) (ReadADC10(2) / 3.03) % 10 + 1;
+                sprintf(source, "U%dSENSOR", s);
+                struct R2ProtocolPacket params = {source, "PI", "", sizeof (data), data, ""};
+                uint8_t output[256];
+                int len = R2ProtocolEncode(&params, output, 256);
+
+                if (len >= 0) {
+                    putUSBUSART(output, len);
+                    CDCTxService();
+                }
+           }
+       */
+        */
     }//end while
 }//end main
 
