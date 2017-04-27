@@ -45,6 +45,7 @@
   2.9j  Updates to support new bootloader features (ex: app version 
         fetching).
 ********************************************************************/
+#define _SUPPRESS_PLIB_WARNING 1
 
 /** INCLUDES *******************************************************/
 #include "../includes/usb_main.h"
@@ -55,6 +56,7 @@
 #include "../includes/Compiler.h"
 #include "../includes/usb/usb_config.h"
 #include "../includes/usb/usb_device.h"
+//#include <plib.h>
 
 /** V A R I A B L E S ********************************************************/
 char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE];

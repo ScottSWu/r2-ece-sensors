@@ -47,6 +47,7 @@
 ********************************************************************/
 
 /** INCLUDES *******************************************************/
+#define _SUPPRESS_PLIB_WARNING 1
 
 #include "../uart_putty.h"
 #include "../config.h"
@@ -186,7 +187,7 @@ int main(void)
                 }
            }
        */
-        */
+        
     }//end while
 }//end main
 
