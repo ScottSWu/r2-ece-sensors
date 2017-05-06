@@ -142,7 +142,7 @@ int main(void)
         int i;
         for (i = 0; i < 7; i++) {
             source[1] = sensorNumbers[i];
-            sprintf(data, "%.1f", (ReadADC10(i) / 3.3));
+            sprintf(data, "%.1f", (float)(ReadADC10(i) / 2.66));
             int newlength = strlen(data);
             struct R2ProtocolPacket params = {"", "PI", "", newlength, data, ""};
             char* srcptr = &params.source;

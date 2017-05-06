@@ -122,7 +122,7 @@ int ProcessIO(char* sourceBuffer, char* payloadBuffer, char* checksumBuffer, cha
     //If any bytes are waiting, and the endpoint is available, prepare to
     //send the USB packet to the host.
     
-    if (RS232_Out_Data_Rdy && USBUSARTIsTxTrfReady()){
+    if (RS232_Out_Data_Rdy ){
         memcpy(USB_Out_Buffer, RS232_Out_Data, LastRS232Out);
         
         enum states {   GET_START_PREFIX, GET_START,
