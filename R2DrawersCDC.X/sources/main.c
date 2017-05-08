@@ -97,6 +97,8 @@ static void InitializeSystem(void);
 char source[64];
 char example[64] = {'\n'};
 
+#define NUM_SENSORS 7
+
 int main(void)
 {   
     InitializeSystem();
@@ -128,33 +130,27 @@ int main(void)
         				  // regularly (such as once every 1.8ms or faster** [see 
         				  // inline code comments in usb_device.c for explanation when
         				  // "or faster" applies])  In most cases, the USBDeviceTasks() 
-        				  // function does not take very long to execute (ex: <100 
+        			`1	  // function does not take very long to execute (ex: <100 
         				  // instruction cycles) before it returns.
         #endif
     				  
 
         OpenTimer1(T1_ON | T1_PS_1_256, 0xFFFF);
        
-        uint8_t data[3];
-        char source[256]="ULSENSOR";
-        char sensorNumbers[7] = {'1','2','3','4','5','6','7'};
-
+        uint8_t data[6 * NUM_SENSORS + 1];
+        uint8_t * offset = data;
         int i;
-        for (i = 0; i < 7; i++) {
-            source[1] = sensorNumbers[i];
-            sprintf(data, "%.1f", (float)(ReadADC10(i) / 2.66));
-            int newlength = strlen(data);
-            struct R2ProtocolPacket params = {"", "PI", "", newlength, data, ""};
-            char* srcptr = &params.source;
-            sprintf(srcptr, "%s", source);
-            uint8_t output[256];
-
-            int len = R2ProtocolEncode(&params, output, 256);
-
-            if (len >= 0) {
-                putUSBUSART(output, len);
-                CDCTxService();
-            }
+        for (i = 0; i < NUM_SENSORS; i++) {
+            offset += sprintf(offset, "%.3f,", (float)(ReadADC10(i) / 2.66));
+        }
+        
+        // Set the transaction ID to 'F' for the front board, 'B' for the back board
+        struct R2ProtocolPacket params = {"ULTRASOUND", "PI", "F", strlen(data) - 1, data, ""};
+        uint8_t output[256];
+        int len = R2ProtocolEncode(&params, output, 256);
+        if (len >= 0) {
+            putUSBUSART(output, len);
+            CDCTxService();
         }
         
         

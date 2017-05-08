@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Shanee%20Lu/r2-ece-sensors/r2-ece-sensors-usbcdc/R2DrawersCDC.X/sources/main.c</file>
-            <file>file:/C:/Users/Shanee%20Lu/r2-ece-sensors/r2-ece-sensors-usbcdc/R2DrawersCDC.X/includes/R2Protocol.h</file>
-            <file>file:/C:/Users/Shanee%20Lu/r2-ece-sensors/r2-ece-sensors-usbcdc/R2DrawersCDC.X/sources/usb_main.c</file>
+            <file>file:/C:/Users/scwu/Documents/school/CornellCup2017S/r2-ece-sensors/R2DrawersCDC.X/sources/usb_main.c</file>
+            <file>file:/C:/Users/scwu/Documents/school/CornellCup2017S/r2-ece-sensors/R2DrawersCDC.X/adc.c</file>
+            <file>file:/C:/Users/scwu/Documents/school/CornellCup2017S/r2-ece-sensors/R2DrawersCDC.X/ultrasonic.c</file>
+            <file>file:/C:/Users/scwu/Documents/school/CornellCup2017S/r2-ece-sensors/R2DrawersCDC.X/sources/main.c</file>
         </group>
     </open-files>
 </project-private>
