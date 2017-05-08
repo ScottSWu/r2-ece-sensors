@@ -137,7 +137,7 @@ int main(void)
 
         OpenTimer1(T1_ON | T1_PS_1_256, 0xFFFF);
        
-        uint8_t data[6 * NUM_SENSORS + 1];
+        uint8_t data[10 * NUM_SENSORS + 1];
         uint8_t * offset = data;
         int i;
         for (i = 0; i < NUM_SENSORS; i++) {
